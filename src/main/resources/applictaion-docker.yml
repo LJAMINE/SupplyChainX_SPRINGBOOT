@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: supplychainx
+
+  datasource:
+    # when app runs inside docker-compose, it must use the service hostname 'mysql'
+    url: jdbc:mysql://mysql:3306/supplychainx?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: scx
+    password: scxpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update

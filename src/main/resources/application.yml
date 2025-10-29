@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: supplychainx
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/supplychainx?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: scx
+    password: scxpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update   # dev convenience: creates/updates tables from JPA entities
+
+# Liquibase (if you will use it later)
+# spring:
+#   liquibase:
+#     enabled: true
+#     change-log: classpath:db/changelog/db.changelog-master.xml
