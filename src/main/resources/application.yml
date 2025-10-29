@@ -16,6 +16,8 @@ spring:
     hibernate:
       ddl-auto: update   # dev convenience: creates/updates tables from JPA entities
 
+  liquibase:
+    enabled: false
 # Liquibase (if you will use it later)
 # spring:
 #   liquibase:
