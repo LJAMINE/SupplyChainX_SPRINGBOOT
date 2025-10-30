@@ -25,7 +25,6 @@ public class SupplierController {
 
 
     @RequireRole({Role.RESPONSABLE_ACHATS})
-
     @GetMapping
     public ResponseEntity<Page<SupplierResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -47,6 +46,7 @@ public class SupplierController {
     @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
     @PostMapping
     public ResponseEntity<SupplierResponseDto> create(@Validated @RequestBody SupplierRequestDto dto) {
+        System.out.println("DEBUG: SupplierController.create received DTO = " + dto);
         return ResponseEntity.ok(supplierService.create(dto));
     }
 

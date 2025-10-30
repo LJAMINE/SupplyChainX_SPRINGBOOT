@@ -31,6 +31,70 @@ public class Supplier {
     @Column(name = "lead_time_days")
     private Integer leadTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getLeadTime() {
+        return leadTime;
+    }
+
+    public void setLeadTime(Integer leadTime) {
+        this.leadTime = leadTime;
+    }
+
+    public List<SupplyOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<SupplyOrder> orders) {
+        this.orders = orders;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @OneToMany(mappedBy = "supplier")
     private List<SupplyOrder> orders;
 
