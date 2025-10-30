@@ -37,21 +37,8 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto get(Long id) {
         return userRepository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("U ser not found: " + id));
     }
-
-//    @Override
-//    public UserResponseDto create(UserRequestDto dto) {
-//        if (userRepository.existsByEmail(dto.getEmail())) {
-//            throw new BadRequestException("Email already in use");
-//        }
-//        User user = mapper.toEntity(dto);
-//        user.setCreatedAt(LocalDateTime.now());
-//        // DEV NOTE: plaintext password stored in passwordHash field for dev. Replace with BCrypt in production.
-//        user.setPasswordHash(dto.getPassword());
-//        User saved = userRepository.save(user);
-//        return mapper.toDto(saved);
-//    }
 
 
     @Override
@@ -60,10 +47,9 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Email already in use");
         }
         User user = mapper.toEntity(dto);
-        System.out.println("DEBUG Service: mapped entity BEFORE set/save = " + user);
+//        System.out.println("DEBUG Service: mapped entity BEFORE set/save = " + user);
         user.setCreatedAt(LocalDateTime.now());
-        // DEV: store password as-is for now (replace with BCrypt later)
-        if (dto.getPassword() != null) {
+         if (dto.getPassword() != null) {
             user.setPasswordHash(dto.getPassword());
         }
         User saved = userRepository.save(user);

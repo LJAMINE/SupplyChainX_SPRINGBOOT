@@ -34,15 +34,11 @@ public class UserController {
         return ResponseEntity.ok(service.get(id));
     }
 
-    // Create user (keep unprotected initially so you can bootstrap the first admin)
-//    @PostMapping
-//    public ResponseEntity<UserResponseDto> create(@Validated @RequestBody UserRequestDto dto) {
-//        return ResponseEntity.ok(service.create(dto));
-//    }
+
 
     @PostMapping
     public ResponseEntity<UserResponseDto> create(@Validated @RequestBody UserRequestDto dto) {
-        System.out.println("DEBUG Controller: received DTO = " + dto);
+//        System.out.println("-------------: received DTO = " + dto);
         return ResponseEntity.ok(service.create(dto));
     }
 
