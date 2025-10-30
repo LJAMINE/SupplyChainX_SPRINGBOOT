@@ -18,7 +18,9 @@ import java.math.BigDecimal;
 public class SupplyOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idOrder;
+    @Column(name = "id_order")
+    private Long id;
+
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "supplier_id")

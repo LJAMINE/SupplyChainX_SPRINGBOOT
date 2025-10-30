@@ -13,7 +13,8 @@ import lombok.*;
 public class BillOfMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBOM;
+     @Column(name = "id_bom")
+    private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id")

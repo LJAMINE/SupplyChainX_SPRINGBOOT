@@ -15,7 +15,8 @@ import java.util.List;
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSupplier;
+    @Column(name = "id_supplier")
+    private Long id;
 
     @Column(name = "name", length = 200, nullable = false)
     private String name;

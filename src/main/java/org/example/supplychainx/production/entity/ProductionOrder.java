@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class ProductionOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idOrder;
+     @Column(name = "id_order")
+    private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id")

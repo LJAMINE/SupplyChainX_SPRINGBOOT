@@ -16,7 +16,8 @@ import java.util.List;
 public class RawMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMaterial;
+     @Column(name = "id_material")
+    private Long id;
 
     @Column(name = "name", length = 200, nullable = false)
     private String name;

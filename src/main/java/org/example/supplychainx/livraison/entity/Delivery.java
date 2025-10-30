@@ -12,11 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 
-
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDelivery;
+    @Column(name = "id_delivery")
+    private Long id;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "client_order_id", unique = true)

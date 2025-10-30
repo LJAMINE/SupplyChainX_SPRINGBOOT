@@ -15,7 +15,8 @@ import java.util.List;
 public class ClientOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idOrder;
+     @Column(name = "id_clientorder")
+    private Long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
