@@ -53,20 +53,7 @@ public class SupplierServiceImpl implements SupplierService {
         return mapper.toDto(saved);
     }
 
-//    @Override
-//    public SupplierResponseDto create(SupplierRequestDto dto) {
-//        // Manual mapping to avoid MapStruct mapping issue (temporary fix)
-//        Supplier supplier = Supplier.builder()
-//                .name(dto.getName())
-//                .contact(dto.getContact())
-//                .rating(dto.getRating())
-//                .leadTime(dto.getLeadTime())
-//                .build();
-//
-//        supplier.setCreatedAt(LocalDateTime.now());
-//        Supplier saved = supplierRepository.save(supplier);
-//        return mapper.toDto(saved);
-//    }
+
 
     @Override
     public SupplierResponseDto update(Long id, SupplierRequestDto dto) {

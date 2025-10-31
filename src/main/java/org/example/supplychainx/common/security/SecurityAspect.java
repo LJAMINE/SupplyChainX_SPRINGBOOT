@@ -33,6 +33,7 @@ public class SecurityAspect {
         String password = req.getHeader("X-User-Password");
 
         // authenticate (throws UnauthorizedException on failure)
+
         AuthenticatedUser principal = authService.authenticate(email, password);
 
         // decide required roles (method-level overrides class-level)
