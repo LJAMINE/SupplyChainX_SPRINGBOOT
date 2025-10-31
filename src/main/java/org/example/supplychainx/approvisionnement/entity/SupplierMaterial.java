@@ -3,7 +3,7 @@ package org.example.supplychainx.approvisionnement.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "supplier_materials",
@@ -12,29 +12,33 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-
 public class SupplierMaterial {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    // link to Supplier
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "supplier_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
-    // link to RawMaterial
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "raw_material_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "raw_material_id", nullable = false)
     private RawMaterial rawMaterial;
 
-    @Column(name = "supplier_sku", length = 150)
+      @Column(name = "supplier_sku", length = 200)
     private String supplierSku;
 
-    @Column(name = "price", precision = 19, scale = 4)
-    private BigDecimal price;
+    @Column(name = "price")
+    private Double price;
 
     @Column(name = "lead_time_days")
-    private Integer leadTimeDays;
+    private Integer leadTime;
+
+    @Column(name = "min_order_quantity")
+    private Integer minOrderQuantity;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
