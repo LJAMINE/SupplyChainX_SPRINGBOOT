@@ -13,8 +13,8 @@ public interface SupplyOrderMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "orderDate", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
+//    @Mapping(target = "createdAt", ignore = true)
+//    @Mapping(target = "updatedAt", ignore = true)
     SupplyOrder toEntity(SupplyOrderRequestDto dto);
 
 //     map item entity -> response dto (extract raw material id/name)
