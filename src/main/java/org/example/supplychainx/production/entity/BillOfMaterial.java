@@ -2,6 +2,7 @@ package org.example.supplychainx.production.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.supplychainx.approvisionnement.entity.RawMaterial;
 
 @Entity
 @Table(name = "bill_of_materials",
@@ -13,7 +14,7 @@ import lombok.*;
 public class BillOfMaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     @Column(name = "id_bom")
+    @Column(name = "idbom")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -22,7 +23,7 @@ public class BillOfMaterial {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "raw_material_id")
-    private org.example.supplychainx.approvisionnement.entity.RawMaterial rawMaterial;
+    private RawMaterial rawMaterial;
 
     @Column(name = "quantity_required")
     private Integer quantity;
