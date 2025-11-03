@@ -31,6 +31,15 @@ public class Supplier {
     @Column(name = "lead_time_days")
     private Integer leadTime;
 
+    @OneToMany(mappedBy = "supplier")
+    private List<SupplyOrder> orders;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     public Long getId() {
         return id;
     }
@@ -95,12 +104,5 @@ public class Supplier {
         this.updatedAt = updatedAt;
     }
 
-    @OneToMany(mappedBy = "supplier")
-    private List<SupplyOrder> orders;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 }

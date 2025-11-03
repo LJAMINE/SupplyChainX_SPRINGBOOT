@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -27,9 +28,15 @@ public class Customer {
     @Column(name = "city", length = 200)
     private String city;
 
+    @Column(name = "contact_phone", length = 50)
+    private String phone;
+
     @OneToMany(mappedBy = "customer")
     private List<ClientOrder> orders;
 
     @Column(name = "created_at")
     private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

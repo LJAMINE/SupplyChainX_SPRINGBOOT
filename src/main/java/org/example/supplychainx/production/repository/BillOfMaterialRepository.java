@@ -8,4 +8,5 @@ import java.util.List;
 public interface BillOfMaterialRepository extends JpaRepository<BillOfMaterial, Long> {
     List<BillOfMaterial> findByProductId(Long productId);
     boolean existsByProductId(Long productId);
+
 }
