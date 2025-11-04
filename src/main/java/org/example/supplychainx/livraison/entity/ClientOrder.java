@@ -15,7 +15,7 @@ import java.util.List;
 public class ClientOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     @Column(name = "id_clientorder")
+    @Column(name = "id_order")
     private Long id;
 
     @ManyToOne(optional = false)
@@ -31,4 +31,8 @@ public class ClientOrder {
 
     @OneToMany(mappedBy = "clientOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClientOrderItem> items;
-}
+
+    @Column(name = "total_amount")
+    private Double totalAmount;
+
+    }

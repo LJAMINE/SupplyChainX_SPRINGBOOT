@@ -14,16 +14,21 @@ public class ClientOrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_order_id")
     private ClientOrder clientOrder;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id")
-    private org.example.supplychainx.production.entity.Product product;
 
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+
+    @Column(name = "quantity_delivered")
+    private Integer quantityDelivered;
 
     @Column(name = "unit_price")
     private Double unitPrice;
