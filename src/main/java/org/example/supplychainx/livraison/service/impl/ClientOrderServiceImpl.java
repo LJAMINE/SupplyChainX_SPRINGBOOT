@@ -19,6 +19,7 @@ import org.example.supplychainx.production.entity.Product;
 import org.example.supplychainx.production.repository.ProductRepository;
 import org.example.supplychainx.production.service.interf.ProductionOrderService;
  import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     private final ProductionOrderService productionOrderService;
 
     @Override
-    public Page<ClientOrderResponseDto> list(String q, org.springframework.data.domain.Pageable pageable) {
+    public Page<ClientOrderResponseDto> list(Pageable pageable) {
          return repository.findAll(pageable).map(mapper::toDto);
     }
 

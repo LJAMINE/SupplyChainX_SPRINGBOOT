@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ClientOrderService {
-    Page<ClientOrderResponseDto> list(String q, Pageable pageable);
+    Page<ClientOrderResponseDto> list(Pageable pageable);
     ClientOrderResponseDto get(Long id);
     ClientOrderResponseDto create(ClientOrderRequestDto dto);
     ClientOrderResponseDto update(Long id, ClientOrderRequestDto dto);
