@@ -150,7 +150,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         } else if (order.getStatus() == ClientOrderStatus.PLANIFIE && newStatus == ClientOrderStatus.ANNULE) {
             order.setStatus(ClientOrderStatus.ANNULE);
         } else {
-            throw new IllegalStateException("Unsupported status transition: " + order.getStatus() + " -> " + newStatus);
+             throw new IllegalStateException("Unsupported status transition: " + order.getStatus() + " -> " + newStatus);
         }
 
         ClientOrder saved = repository.save(order);

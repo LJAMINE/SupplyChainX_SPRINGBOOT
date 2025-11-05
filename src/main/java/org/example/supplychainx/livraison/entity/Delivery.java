@@ -37,4 +37,5 @@ public class Delivery {
 
     @Column(name = "cost")
     private Double cost;
+
 }
