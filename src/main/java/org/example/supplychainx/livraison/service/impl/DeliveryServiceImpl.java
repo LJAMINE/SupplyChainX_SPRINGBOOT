@@ -44,6 +44,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 
 //        no duplicate delivery for same order
+
         if (repository.existsByClientOrder_Id(order.getId())){
             throw new IllegalStateException("delivery for this order already exists");
         }
