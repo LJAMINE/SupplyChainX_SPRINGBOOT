@@ -62,6 +62,7 @@ public class ProductionOrderServiceImpl  implements ProductionOrderService {
 
         var product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + dto.getProductId()));
+
         order.setProduct(product);
         order.setQuantity(dto.getQuantity());
         ProductionOrder saved = repository.save(order);
