@@ -57,7 +57,9 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public SupplierResponseDto update(Long id, SupplierRequestDto dto) {
+
         Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Supplier not found: " + id));
+
         mapper.updateEntityFromDto(dto, supplier);
         supplier.setUpdatedAt(LocalDateTime.now());
         Supplier saved = supplierRepository.save(supplier);

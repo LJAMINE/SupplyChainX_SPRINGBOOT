@@ -23,8 +23,7 @@ public class AuthService {
         }
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UnauthorizedException("Invalid credentials"));
-        // DEV: plaintext check — replace with BCrypt in production
-        if (!password.equals(user.getPasswordHash())) {
+         if (!password.equals(user.getPasswordHash())) {
             throw new UnauthorizedException("Invalid credentials");
         }
         return new AuthenticatedUser(user.getId(), user.getEmail(), user.getRole());

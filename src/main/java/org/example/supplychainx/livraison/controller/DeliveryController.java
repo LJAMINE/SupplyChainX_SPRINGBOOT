@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/deliveries")
@@ -40,6 +42,12 @@ public class DeliveryController {
 
 
     @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+    @PutMapping("/{id}")
+    public ResponseEntity<DeliveryResponseDto> update(@PathVariable Long id, @Validated @RequestBody DeliveryRequestDto dto) {
+        return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.get(id));
@@ -50,9 +58,14 @@ public class DeliveryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 
 
+    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<DeliveryResponseDto> changeStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String status = body.get("status");
+        return ResponseEntity.ok(service.changeStatus(id, status));
+    }
 }

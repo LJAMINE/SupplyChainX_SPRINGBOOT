@@ -31,9 +31,9 @@ import java.util.List;
 public class SupplyOrderServiceImpl implements SupplyOrderService {
 
     private final SupplyOrderRepository repository;
-    private  final SupplyOrderItemRepository supplyOrderItemRepository;
-    private  final RawMaterialRepository rawMaterialRepository;
-    private  final SupplierRepository supplierRepository;
+    private final SupplyOrderItemRepository supplyOrderItemRepository;
+    private final RawMaterialRepository rawMaterialRepository;
+    private final SupplierRepository supplierRepository;
     private final SupplyOrderMapper mapper;
 
 
@@ -52,16 +52,16 @@ public class SupplyOrderServiceImpl implements SupplyOrderService {
     public SupplyOrderResponseDto create(SupplyOrderRequestDto dto) {
 
 //        insert in the supplyOrder table first
-        Supplier supplier =supplierRepository.findById(dto.getSupplierId()).orElseThrow(()->new ResourceNotFoundException("supplier not found "));
+        Supplier supplier = supplierRepository.findById(dto.getSupplierId()).orElseThrow(() -> new ResourceNotFoundException("supplier not found "));
 
-        SupplyOrder supplyOrder= mapper.toEntity(dto);
+        SupplyOrder supplyOrder = mapper.toEntity(dto);
         supplyOrder.setSupplier(supplier);
         supplyOrder.setOrderDate(LocalDate.now());
         supplyOrder.setStatus(SupplyOrderStatus.EN_ATTENTE);
 
 //
 
-        List<SupplyOrderItem> items=new ArrayList<>();
+        List<SupplyOrderItem> items = new ArrayList<>();
 
         BigDecimal total = BigDecimal.ZERO;
         if (dto.getItems() != null) {

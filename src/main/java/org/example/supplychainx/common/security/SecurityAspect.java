@@ -21,7 +21,8 @@ public class SecurityAspect {
     }
 
     // Only intercept methods or classes annotated with @RequireRole
-    @Around("@within(org.example.supplychainx.common.security.RequireRole) || @annotation(org.example.supplychainx.common.security.RequireRole)")
+
+    @Around("@within(RequireRole) || @annotation(RequireRole)")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attrs == null) {

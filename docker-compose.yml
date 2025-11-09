@@ -1,3 +1,41 @@
+#version: "3.8"
+#
+#services:
+#  mysql:
+#    image: mysql:8.0
+#    container_name: supplychainx-mysql
+#    restart: unless-stopped
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#      MYSQL_DATABASE: supplychainx
+#      MYSQL_USER: scx
+#      MYSQL_PASSWORD: scxpassword
+#    volumes:
+#      - mysql-data:/var/lib/mysql
+#    ports:
+#      - "3306:3306"
+#    healthcheck:
+#      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-prootpassword"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#
+#  phpmyadmin:
+#    image: phpmyadmin:latest
+#    container_name: supplychainx-phpmyadmin
+#    restart: unless-stopped
+#    environment:
+#      PMA_HOST: mysql
+#      MYSQL_ROOT_PASSWORD: rootpassword
+#    ports:
+#      - "8081:80"
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+#
+#volumes:
+#  mysql-data:
+
 version: "3.8"
 
 services:
@@ -30,8 +68,30 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    image: supplychainx:local
+    container_name: supplychainx-app
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_USERNAME: scx
+      SPRING_DATASOURCE_PASSWORD: scxpassword
+      # optional explicit URL override (not required because application-docker.yml uses jdbc:mysql://mysql:3306)
+      # SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/supplychainx?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql-data:
