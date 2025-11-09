@@ -1,0 +1,56 @@
+name: CI — Build, Push Image, Trigger Render
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-jdk@v4
+        with:
+          java-version: 17
+          distribution: 'corretto'
+
+      - name: Make mvnw executable
+        run: chmod +x mvnw || true
+
+      - name: Build package (runs tests)
+        run: ./mvnw -B clean package
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/backend/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:latest
+
+      - name: Trigger Render deploy (Deploy Hook)
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "No Render deploy hook configured, skipping trigger."
+            exit 0
+          fi
+          curl -sS -X POST "$RENDER_DEPLOY_HOOK"
