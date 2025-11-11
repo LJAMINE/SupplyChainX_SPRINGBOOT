@@ -28,6 +28,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/customers")
 @Tag(name = "Customers", description = "Operations to manage cus    tomers")
 @SecurityRequirement(name = "bearerAuth") // optional: shows Authorize button in Swagger UI
+
+
+
 public class CustomerController {
     private final CustomerService service;
 
