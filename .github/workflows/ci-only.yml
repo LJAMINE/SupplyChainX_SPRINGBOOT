@@ -1,12 +1,133 @@
-name: CI — Build & Push Image (no deploy)
+#name: CI — Build & Push Image (no deploy)
+#
+#on:
+#  push:
+#    branches: [ main ]
+#
+#jobs:
+#  build-and-push:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Set up JDK 17
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: 17
+#          distribution: 'corretto'
+#
+#      - name: Make mvnw executable
+#        run: chmod +x mvnw || true
+#
+#      - name: Build package (skip tests for speed)
+#        run: ./mvnw -B clean package -DskipTests
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#
+#      - name: Log in to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v5
+#        with:
+#          context: .
+#          file: docker/backend/Dockerfile
+#          push: true
+#          platforms: linux/amd64
+#          tags: |
+#            ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:${{ github.sha }}
+#            ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:latest
 
+
+# CI — Tests, JaCoCo, SonarQube analysis → Build & Push Image (no deploy)
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-push:
+  test-and-analyze:
+    name: Test, JaCoCo and Sonar analysis
     runs-on: ubuntu-latest
+    outputs:
+      sonar_dashboard_url: ${{ steps.sonar_report.outputs.dashboard_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17 (Corretto) and enable Maven cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Make mvnw executable
+        run: chmod +x mvnw || true
+
+      - name: Cache Sonar scanner cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: sonar-cache-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+
+      - name: Run tests and generate coverage (mvn verify)
+        env:
+          MAVEN_OPTS: -Xmx2g
+        run: |
+          ./mvnw -B -DskipTests=false clean verify
+
+      - name: Upload test & coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            target/surefire-reports
+            target/failsafe-reports
+            target/site/jacoco
+            target/site/surefire-report.html
+
+      - name: Run SonarQube analysis
+        id: sonar_report
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ ! -f target/site/jacoco/jacoco.xml ]; then
+            echo "ERROR: jacoco.xml not found in target/site/jacoco. Aborting."; exit 1
+          fi
+          ./mvnw -B sonar:sonar \
+            -Dsonar.host.url=${SONAR_HOST_URL} \
+            -Dsonar.login=${SONAR_TOKEN} \
+            -Dsonar.projectKey=org.example:SupplyChainX \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+          # print dashboard url (may be resolved after server processing)
+          echo "::set-output name=dashboard_url::${SONAR_HOST_URL}/dashboard?id=org.example%3ASupplyChainX"
+
+  build-and-push:
+    name: Build JAR and Push Docker image
+    needs: test-and-analyze
+    runs-on: ubuntu-latest
+    if: ${{ needs.test-and-analyze.result == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,19 +137,27 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: 17
           distribution: 'corretto'
+          java-version: '17'
 
       - name: Make mvnw executable
         run: chmod +x mvnw || true
 
-      - name: Build package (skip tests for speed)
-        run: ./mvnw -B clean package -DskipTests
+      - name: Restore Maven cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Build package (no tests, already ran)
+        run: ./mvnw -B -DskipTests -DskipITs clean package
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -44,3 +173,9 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:${{ github.sha }}
             ${{ secrets.DOCKERHUB_USERNAME }}/supplychainx-api:latest
+
+      - name: Upload image metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-info
+          path: target
