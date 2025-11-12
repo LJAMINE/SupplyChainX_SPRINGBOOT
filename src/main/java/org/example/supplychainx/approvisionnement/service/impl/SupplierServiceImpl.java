@@ -10,7 +10,9 @@ import org.example.supplychainx.approvisionnement.dto.SupplierResponseDto;
 import org.example.supplychainx.approvisionnement.entity.Supplier;
 import org.example.supplychainx.approvisionnement.mapper.SupplierMapper;
 import org.example.supplychainx.approvisionnement.repository.SupplierRepository;
+import org.example.supplychainx.approvisionnement.repository.SupplyOrderRepository;
 import org.example.supplychainx.approvisionnement.service.interf.SupplierService;
+import org.example.supplychainx.common.exception.HasCommandeActive;
 import org.example.supplychainx.common.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,7 @@ public class SupplierServiceImpl implements SupplierService {
 
 
     private final SupplierRepository supplierRepository;
+    private final SupplyOrderRepository supplyOrderRepository;
     private final SupplierMapper mapper;
 
     @Override
@@ -73,6 +76,10 @@ public class SupplierServiceImpl implements SupplierService {
             throw new ResourceNotFoundException("supplier not found ");
         }
 
+        if (supplyOrderRepository.existsBySupplierId(id)){
+            throw new HasCommandeActive("has command active ");
+        }
         supplierRepository.deleteById(id);
+
     }
 }

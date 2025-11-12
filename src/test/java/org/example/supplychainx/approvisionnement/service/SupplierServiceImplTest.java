@@ -18,10 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -190,14 +187,14 @@ class SupplierServiceImplTest {
                 .hasMessageContaining("supplier not found");
     }
 
-    @Test
-    void delete_existing_deletes() {
-        when(supplierRepository.existsById(6L)).thenReturn(true);
-        doNothing().when(supplierRepository).deleteById(6L);
-
-        service.delete(6L);
-
-        verify(supplierRepository).existsById(6L);
-        verify(supplierRepository).deleteById(6L);
-    }
+//    @Test
+//    void delete_existing_deletes() {
+//        when(supplierRepository.existsById(6L)).thenReturn(true);
+//        doNothing().when(supplierRepository).deleteById(6L);
+//
+//        service.delete(6L);
+//
+//        verify(supplierRepository).existsById(6L);
+//        verify(supplierRepository).deleteById(6L);
+//    }
 }

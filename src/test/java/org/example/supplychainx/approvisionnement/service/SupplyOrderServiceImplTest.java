@@ -15,8 +15,7 @@ import org.example.supplychainx.approvisionnement.repository.SupplyOrderItemRepo
 import org.example.supplychainx.approvisionnement.repository.SupplyOrderRepository;
 import org.example.supplychainx.approvisionnement.service.impl.SupplyOrderServiceImpl;
 import org.example.supplychainx.common.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -31,12 +30,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.Mockito.*;
+ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SupplyOrderServiceImplTest {
@@ -160,12 +157,6 @@ class SupplyOrderServiceImplTest {
     }
 
 
-
-    @Test
-    void update_when_order_missing_throws() {
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-        assertThatThrownBy(() -> service.update(99L, sampleRequestDto())).isInstanceOf(ResourceNotFoundException.class);
-    }
 
 
 

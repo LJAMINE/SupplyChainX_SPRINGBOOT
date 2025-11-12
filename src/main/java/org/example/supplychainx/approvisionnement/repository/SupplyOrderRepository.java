@@ -12,6 +12,7 @@ public interface SupplyOrderRepository extends JpaRepository<SupplyOrder,Long> {
     Page<SupplyOrder> findByStatus(SupplyOrderStatus status, Pageable pageable);
 
     Page<SupplyOrder>findBySupplierId(Long supplierId,Pageable pageable);
+    boolean existsBySupplierId(Long supplierId);
 
 
 }
