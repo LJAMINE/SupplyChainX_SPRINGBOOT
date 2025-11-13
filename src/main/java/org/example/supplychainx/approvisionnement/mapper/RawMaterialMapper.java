@@ -11,7 +11,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RawMaterialMapper {
 
-    // Ignore id and createdAt for toEntity (managed by DB/service)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     RawMaterial toEntity(RawMaterialRequestDto dto);

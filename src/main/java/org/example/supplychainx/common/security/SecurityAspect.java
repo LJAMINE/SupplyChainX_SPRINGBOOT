@@ -33,11 +33,9 @@ public class SecurityAspect {
         String email = req.getHeader("X-User-Email");
         String password = req.getHeader("X-User-Password");
 
-        // authenticate (throws UnauthorizedException on failure)
 
         AuthenticatedUser principal = authService.authenticate(email, password);
 
-        // decide required roles (method-level overrides class-level)
         MethodSignature ms = (MethodSignature) pjp.getSignature();
         Method method = ms.getMethod();
         RequireRole rr = AnnotationUtils.findAnnotation(method, RequireRole.class);
