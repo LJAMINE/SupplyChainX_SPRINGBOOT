@@ -45,6 +45,7 @@ public class CustomerControllerIT {
     private ObjectMapper objectMapper;
 
     // Mock the AuthService used by SecurityAspect so tests don't need to send headers or hit user repo
+
     @MockBean
     private AuthService authService;
 
@@ -52,6 +53,7 @@ public class CustomerControllerIT {
 
     @BeforeEach
     void setup(){
+
         // stub AuthService to return an authenticated principal for any email/password (including null)
 
         var principal = new AuthenticatedUser(1L, "test@example.com", Role.GESTIONNAIRE_COMMERCIAL);
@@ -71,6 +73,7 @@ public class CustomerControllerIT {
     @AfterEach
     void tearDown() {
         // nothing special to clear because SecurityAspect sets and clears SecurityContext per request
+
         customerRepository.deleteAll();
     }
 
