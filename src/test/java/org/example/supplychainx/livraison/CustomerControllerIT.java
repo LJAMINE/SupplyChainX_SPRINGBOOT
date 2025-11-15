@@ -9,7 +9,7 @@ import org.example.supplychainx.livraison.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
- import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,10 +49,11 @@ public class CustomerControllerIT {
     @MockBean
     private AuthService authService;
 
+
     private Customer existing;
 
     @BeforeEach
-    void setup(){
+    void setup() {
 
         // stub AuthService to return an authenticated principal for any email/password (including null)
 
@@ -70,6 +71,7 @@ public class CustomerControllerIT {
         existing = customerRepository.save(existing);
     }
 
+
     @AfterEach
     void tearDown() {
         // nothing special to clear because SecurityAspect sets and clears SecurityContext per request
@@ -80,8 +82,8 @@ public class CustomerControllerIT {
     @Test
     void getList_returnsPagedCustomers() throws Exception {
         mockMvc.perform(get("/api/customers")
-                        .param("page","0")
-                        .param("size","20"))
+                        .param("page", "0")
+                        .param("size", "20"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("ACME"));
     }
