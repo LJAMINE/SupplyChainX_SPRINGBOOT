@@ -8,7 +8,7 @@ import org.example.supplychainx.approvisionnement.dto.SupplierMaterialRequestDto
 import org.example.supplychainx.approvisionnement.dto.SupplierMaterialResponseDto;
 import org.example.supplychainx.approvisionnement.entity.SupplierMaterial;
 import org.example.supplychainx.approvisionnement.service.interf.SupplierMaterialService;
-import org.example.supplychainx.common.security.RequireRole;
+//import org.example.supplychainx.common.security.RequireRole;
 import org.example.supplychainx.common.security.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +25,7 @@ public class SupplierMaterialController {
 
     private final SupplierMaterialService supplierMaterialService;
 
-    @RequireRole({Role.SUPERVISEUR_LOGISTIQUE})
+//    @RequireRole({Role.SUPERVISEUR_LOGISTIQUE})
     @GetMapping
     public ResponseEntity<Page<SupplierMaterialResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -35,7 +35,7 @@ public class SupplierMaterialController {
         return ResponseEntity.ok(supplierMaterialService.list(s, pageable));
     }
 
-    @RequireRole({ Role.SUPERVISEUR_LOGISTIQUE})
+//    @RequireRole({ Role.SUPERVISEUR_LOGISTIQUE})
 
     @GetMapping("/{id}")
     public ResponseEntity<SupplierMaterialResponseDto> get(@PathVariable Long id) {
@@ -44,20 +44,20 @@ public class SupplierMaterialController {
 
 
 
-    @RequireRole({Role.RESPONSABLE_ACHATS})
+//    @RequireRole({Role.RESPONSABLE_ACHATS})
     @PostMapping
     public ResponseEntity<SupplierMaterialResponseDto> create(@Validated @RequestBody SupplierMaterialRequestDto dto) {
         return ResponseEntity.ok(supplierMaterialService.create(dto));
     }
 
-    @RequireRole({Role.RESPONSABLE_ACHATS})
+//    @RequireRole({Role.RESPONSABLE_ACHATS})
     @PutMapping("/{id}")
     public ResponseEntity<SupplierMaterialResponseDto> update(@PathVariable Long id, @Validated @RequestBody SupplierMaterialRequestDto dto) {
         return ResponseEntity.ok(supplierMaterialService.update(id, dto));
     }
 
 
-    @RequireRole({Role.RESPONSABLE_ACHATS})
+//    @RequireRole({Role.RESPONSABLE_ACHATS})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         supplierMaterialService.delete(id);

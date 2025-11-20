@@ -2,7 +2,7 @@ package org.example.supplychainx.livraison.controller;
 
 
 import lombok.AllArgsConstructor;
-import org.example.supplychainx.common.security.RequireRole;
+//import org.example.supplychainx.common.security.RequireRole;
 import org.example.supplychainx.common.security.Role;
 import org.example.supplychainx.livraison.dto.*;
 import org.example.supplychainx.livraison.service.interf.DeliveryService;
@@ -24,7 +24,7 @@ public class DeliveryController {
 
     private final DeliveryService service;
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
     @GetMapping
     public ResponseEntity<Page<DeliveryResponseDto>> list(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -33,7 +33,7 @@ public class DeliveryController {
         return ResponseEntity.ok(service.list(pageable));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PostMapping
     public ResponseEntity<DeliveryResponseDto> create(@Validated @RequestBody DeliveryRequestDto dto) {
         DeliveryResponseDto created = service.create(dto);
@@ -41,20 +41,20 @@ public class DeliveryController {
     }
 
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PutMapping("/{id}")
     public ResponseEntity<DeliveryResponseDto> update(@PathVariable Long id, @Validated @RequestBody DeliveryRequestDto dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.get(id));
     }
 
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
@@ -62,7 +62,7 @@ public class DeliveryController {
     }
 
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PatchMapping("/{id}/status")
     public ResponseEntity<DeliveryResponseDto> changeStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
         String status = body.get("status");

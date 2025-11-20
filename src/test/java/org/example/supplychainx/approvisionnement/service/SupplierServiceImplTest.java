@@ -19,14 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+ import java.util.Collections;
+ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SupplierServiceImplTest {
@@ -66,19 +63,7 @@ class SupplierServiceImplTest {
 
 
 
-//    @Test
-//    void getAllSupplier(){
-//
-//        Supplier supplier1=new Supplier(1L, "amine", "agadir", 3.3, 4, null, null, null);
-//        Supplier supplier2=new Supplier(2L, "said", "casa", 3.3, 4, null, null, null);
-//given(supplierRepository.findAll()).willReturn(List.of(supplier1, supplier2));
-//
-//        Page<Supplier> page=new PageImpl<>(Collections.singletonList(s), pageable, 1);
-//        when(supplierRepository.findAll(pageable)).thenReturn(page);
-//        when(mapper.toDto(s)).thenReturn(new SupplierResponseDto());
-//
-//
-//    }
+
 
 
 
@@ -208,14 +193,4 @@ class SupplierServiceImplTest {
                 .hasMessageContaining("supplier not found");
     }
 
-//    @Test
-//    void delete_existing_deletes() {
-//        when(supplierRepository.existsById(6L)).thenReturn(true);
-//        doNothing().when(supplierRepository).deleteById(6L);
-//
-//        service.delete(6L);
-//
-//        verify(supplierRepository).existsById(6L);
-//        verify(supplierRepository).deleteById(6L);
-//    }
 }

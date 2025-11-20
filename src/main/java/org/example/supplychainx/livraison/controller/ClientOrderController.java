@@ -3,7 +3,7 @@ package org.example.supplychainx.livraison.controller;
 import lombok.AllArgsConstructor;
 import org.example.supplychainx.livraison.dto.*;
 import org.example.supplychainx.livraison.service.interf.ClientOrderService;
-import org.example.supplychainx.common.security.RequireRole;
+//import org.example.supplychainx.common.security.RequireRole;
 import org.example.supplychainx.common.security.Role;
 import org.example.supplychainx.production.dto.ProductionOrderStatusChangeDto;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public class ClientOrderController {
 
     private final ClientOrderService service;
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PostMapping
     public ResponseEntity<ClientOrderWithAvailabilityDto> create(@Validated @RequestBody ClientOrderRequestDto dto) {
         ClientOrderResponseDto created = service.create(dto);
@@ -37,7 +37,7 @@ public class ClientOrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
     @GetMapping
     public ResponseEntity<Page<ClientOrderResponseDto>> list(
             @RequestParam(value="page", defaultValue="0") int page,
@@ -47,13 +47,13 @@ public class ClientOrderController {
     }
 
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @GetMapping("/{id}")
     public ResponseEntity<ClientOrderResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.get(id));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
@@ -61,7 +61,7 @@ public class ClientOrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PatchMapping("/{id}/status")
     public ResponseEntity<ClientOrderResponseDto> changeStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
         String status = body.get("status");
@@ -70,14 +70,14 @@ public class ClientOrderController {
 
 
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @GetMapping("/{id}/availability")
     public ResponseEntity<AvailabilityResponseDto> availability(
             @PathVariable Long id) {
         return ResponseEntity.ok(service.checkAvailability(id));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @PostMapping("/{id}/create-production-orders")
     public ResponseEntity<?> createProduction(@PathVariable Long id) {
         service.createProductionForShortages(id);

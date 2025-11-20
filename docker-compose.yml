@@ -79,6 +79,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: docker
+#      SPRING_PROFILES_ACTIVE: migrate-passwords
       SPRING_DATASOURCE_USERNAME: scx
       SPRING_DATASOURCE_PASSWORD: scxpassword
       # optional explicit URL override (not required because application-docker.yml uses jdbc:mysql://mysql:3306)

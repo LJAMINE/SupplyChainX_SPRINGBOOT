@@ -63,7 +63,11 @@ public class ClientOrderServiceImpl implements ClientOrderService {
             for (ClientOrderItem item : order.getItems()) {
                 Product p = productRepository.findById(item.getProductId())
                         .orElseThrow(() -> new ResourceNotFoundException("Product not found: " + item.getProductId()));
+//                if (p.getStock()<item.getQuantity()){
+//                    throw  new ResourceNotFoundException("the quantity wanted not available");
+//                }
                 if (item.getUnitPrice() == null) item.setUnitPrice(p.getCost());
+
                 total += item.getUnitPrice() * item.getQuantity();
             }
         }

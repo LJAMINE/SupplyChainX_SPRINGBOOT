@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-import org.example.supplychainx.common.security.RequireRole;
+//import org.example.supplychainx.common.security.RequireRole;
 import org.example.supplychainx.common.security.Role;
 import org.example.supplychainx.livraison.dto.CustomerRequestDto;
 import org.example.supplychainx.livraison.dto.CustomerResponseDto;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     private final CustomerService service;
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @Operation(summary = "List customers", description = "List customers. Optional search and pagination.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Paged list of customers"),
@@ -49,7 +49,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.list(s, pageable));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @Operation(summary = "Get customer", description = "Get customer details by id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Customer found"),
@@ -61,7 +61,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.get(id));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @Operation(summary = "Create customer", description = "Create a new customer")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Customer created"),
@@ -74,7 +74,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @Operation(summary = "Update customer", description = "Update an existing customer")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Customer updated"),
@@ -87,7 +87,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL})
     @Operation(summary = "Delete customer", description = "Delete a customer by id")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Customer deleted"),
@@ -100,7 +100,7 @@ public class CustomerController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
+//    @RequireRole({Role.GESTIONNAIRE_COMMERCIAL, Role.SUPERVISEUR_LOGISTIQUE})
     @Operation(summary = "Search customers by name", description = "Search customers by name with pagination")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Paged search results"),

@@ -100,8 +100,6 @@ public class DeliveryServiceImpl implements DeliveryService {
             d.setStatus(newStatus);
         } else if (d.getStatus() == DeliveryStatus.IN_PROGRESS && newStatus == DeliveryStatus.DELIVERED) {
             d.setStatus(newStatus);
-            // mark related client order as delivered (use clientOrderService to keep logic centralized)
-//            clientOrderService.changeStatus(d.getClientOrder().getId(), ClientOrderStatus.LIVREE.name());
         } else if (d.getStatus() == DeliveryStatus.PLANNED && newStatus == DeliveryStatus.CANCELLED) {
             d.setStatus(newStatus);
         } else {

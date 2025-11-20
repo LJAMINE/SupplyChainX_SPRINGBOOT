@@ -1,8 +1,8 @@
 package org.example.supplychainx.livraison;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.supplychainx.common.security.AuthService;
-import org.example.supplychainx.common.security.AuthenticatedUser;
+//import org.example.supplychainx.common.security.AuthService;
+//import org.example.supplychainx.common.security.AuthenticatedUser;
 import org.example.supplychainx.common.security.Role;
 import org.example.supplychainx.livraison.entity.Customer;
 import org.example.supplychainx.livraison.repository.CustomerRepository;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+//import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,8 +46,8 @@ public class CustomerControllerIT {
 
     // Mock the AuthService used by SecurityAspect so tests don't need to send headers or hit user repo
 
-    @MockBean
-    private AuthService authService;
+//    @MockBean
+//    private AuthService authService;
 
 
     private Customer existing;
@@ -56,9 +56,9 @@ public class CustomerControllerIT {
     void setup() {
 
         // stub AuthService to return an authenticated principal for any email/password (including null)
-
-        var principal = new AuthenticatedUser(1L, "test@example.com", Role.GESTIONNAIRE_COMMERCIAL);
-        when(authService.authenticate(nullable(String.class), nullable(String.class))).thenReturn(principal);
+//
+//        var principal = new AuthenticatedUser(1L, "test@example.com", Role.GESTIONNAIRE_COMMERCIAL);
+//        when(authService.authenticate(nullable(String.class), nullable(String.class))).thenReturn(principal);
 
         customerRepository.deleteAll();
 
