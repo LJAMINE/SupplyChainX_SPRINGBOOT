@@ -22,7 +22,9 @@ public class RawMaterialController {
 
     private final RawMaterialService rawMaterialService;
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS, Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    //    @RequireRole({Role.RESPONSABLE_ACHATS, Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','GESTIONNAIRE_APPROVISIONNEMENT')")
+
     @GetMapping
     public ResponseEntity<Page<RawMaterialResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -33,12 +35,14 @@ public class RawMaterialController {
     }
 
 //    @RequireRole({Role.RESPONSABLE_ACHATS, Role.SUPERVISEUR_LOGISTIQUE})
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','SUPERVISEUR_LOGISTIQUE')")
     public ResponseEntity<RawMaterialResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(rawMaterialService.get(id));
     }
 
-//    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    //    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
     @PostMapping
 //    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','GESTIONNAIRE_APPROVISIONNEMENT')")
@@ -47,13 +51,17 @@ public class RawMaterialController {
     }
 
 //    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<RawMaterialResponseDto> update(@PathVariable Long id, @Validated @RequestBody RawMaterialRequestDto dto) {
         return ResponseEntity.ok(rawMaterialService.update(id, dto));
     }
 
 //    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         rawMaterialService.delete(id);
         return ResponseEntity.noContent().build();
