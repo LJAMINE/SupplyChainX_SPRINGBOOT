@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ClientOrderItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +26,6 @@ public class ClientOrderItem {
 
     @Column(name = "quantity", nullable = false)
     private int quantity;
-
 
     @Column(name = "quantity_delivered")
     private Integer quantityDelivered;

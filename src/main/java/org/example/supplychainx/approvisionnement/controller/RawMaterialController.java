@@ -66,6 +66,9 @@ public class RawMaterialController {
         return ResponseEntity.ok(rawMaterialService.create(dto));
     }
 
+
+
+
 //    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
 
     @PutMapping("/{id}")

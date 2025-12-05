@@ -54,11 +54,11 @@ public class ProductController {
     }
 
 //    @RequireRole({Role.CHEF_PRODUCTION})
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> delete(@PathVariable Long id) {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        }
 
 //    @RequireRole({Role.SUPERVISEUR_PRODUCTION, Role.CHEF_PRODUCTION})
     @GetMapping("/{id}")
