@@ -23,13 +23,19 @@ public class JpaUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-         return new UserPrincipal(user);
+        // Check log
+        System.out.println("User found: " + user.getEmail() + ", Role: " + user.getRole());
 
+        // Map user domain object to UserDetails
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPasswordHash()) // MUST be hashed
+                .authorities("ROLE_" + user.getRole().name()) // Ensure role mapping is correct
+                .build();
     }
 }

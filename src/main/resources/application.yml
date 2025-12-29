@@ -18,6 +18,13 @@ spring:
 
   liquibase:
     enabled: false
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:ReplaceWithYourOwnSecretKeyForHMACAlgorithm}
+  access-token-expiry: 900000  # 15 minutes in milliseconds
+  refresh-token-expiry: 604800000  # 7 days in milliseconds
+
 # Liquibase (if you will use it later)
 # spring:
 #   liquibase:

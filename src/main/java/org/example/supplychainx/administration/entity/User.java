@@ -99,10 +99,22 @@ public class User {
     @Column(name = "role", length = 60)
     private Role role;
 
+    @Builder.Default
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled = true;
+
     // Audit
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

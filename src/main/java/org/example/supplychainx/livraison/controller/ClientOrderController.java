@@ -41,7 +41,8 @@ public class ClientOrderController {
     @GetMapping
     public ResponseEntity<Page<ClientOrderResponseDto>> list(
             @RequestParam(value="page", defaultValue="0") int page,
-            @RequestParam(value="size", defaultValue="20") int size) {
+            @RequestParam(value="size", defaultValue="20") int size
+    ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return ResponseEntity.ok(service.list(pageable));
     }
