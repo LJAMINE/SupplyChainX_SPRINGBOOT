@@ -14,9 +14,22 @@ spring:
     hibernate:
       ddl-auto: update
 
+   
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8082/realms/SupplyChainX
-          jwk-set-uri: http://localhost:8082/realms/SupplyChainX/protocol/openid-connect/certs
+          issuer-uri: http://keycloak:8080/realms/SupplyChainX
+          jwk-set-uri: http://keycloak:8080/realms/SupplyChainX/protocol/openid-connect/certs
+
+  logging:
+    level:
+      org:
+        springframework:
+          security: DEBUG
+
+  jwt:
+    auth:
+      converter:
+        resource-id: supplychainx-backend
+        principle-attribute: preferred_username
