@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class SupplierMaterialController {
 
     private final SupplierMaterialService supplierMaterialService;
 
-//    @RequireRole({Role.SUPERVISEUR_LOGISTIQUE})
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     @GetMapping
     public ResponseEntity<Page<SupplierMaterialResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -35,8 +36,7 @@ public class SupplierMaterialController {
         return ResponseEntity.ok(supplierMaterialService.list(s, pageable));
     }
 
-//    @RequireRole({ Role.SUPERVISEUR_LOGISTIQUE})
-
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     @GetMapping("/{id}")
     public ResponseEntity<SupplierMaterialResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(supplierMaterialService.get(id));
@@ -44,20 +44,20 @@ public class SupplierMaterialController {
 
 
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     @PostMapping
     public ResponseEntity<SupplierMaterialResponseDto> create(@Validated @RequestBody SupplierMaterialRequestDto dto) {
         return ResponseEntity.ok(supplierMaterialService.create(dto));
     }
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     @PutMapping("/{id}")
     public ResponseEntity<SupplierMaterialResponseDto> update(@PathVariable Long id, @Validated @RequestBody SupplierMaterialRequestDto dto) {
         return ResponseEntity.ok(supplierMaterialService.update(id, dto));
     }
 
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         supplierMaterialService.delete(id);

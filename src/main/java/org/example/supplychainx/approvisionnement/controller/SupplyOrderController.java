@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class SupplyOrderController {
 
     private final SupplyOrderService service;
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS, Role.GESTIONNAIRE_APPROVISIONNEMENT, Role.SUPERVISEUR_LOGISTIQUE})
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','GESTIONNAIRE_APPROVISIONNEMENT','SUPERVISEUR_LOGISTIQUE')")
     @GetMapping
     public ResponseEntity<Page<SupplyOrderResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -34,32 +35,32 @@ public class SupplyOrderController {
 
 
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS, Role.SUPERVISEUR_LOGISTIQUE})
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','SUPERVISEUR_LOGISTIQUE')")
     @GetMapping("/{id}")
     public ResponseEntity<SupplyOrderResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.get(id));
     }
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     @PostMapping
     public ResponseEntity<SupplyOrderResponseDto> create(@Validated @RequestBody SupplyOrderRequestDto dto) {
         return ResponseEntity.ok(service.create(dto));
     }
 
-//    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     @PutMapping("/{id}")
     public ResponseEntity<SupplyOrderResponseDto> update(@PathVariable Long id, @Validated @RequestBody SupplyOrderRequestDto dto) {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasRole('RESPONSABLE_ACHATS')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-//    @RequireRole({Role.SUPERVISEUR_LOGISTIQUE})
+    @PreAuthorize("hasRole('SUPERVISEUR_LOGISTIQUE')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<SupplyOrderResponseDto> changeStatus(@PathVariable Long id, @Validated @RequestBody SupplyOrderStatusChangeDto dto) {
         return ResponseEntity.ok(service.changeStatus(id, dto));

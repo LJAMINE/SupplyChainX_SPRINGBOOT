@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class SupplierController {
     private final SupplierService supplierService;
 
 
-//    @RequireRole({Role.RESPONSABLE_ACHATS})
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','GESTIONNAIRE_APPROVISIONNEMENT')")
     @GetMapping
     public ResponseEntity<Page<SupplierResponseDto>> list(
             @RequestParam(value = "s", required = false) String s,
@@ -35,7 +36,7 @@ public class SupplierController {
     }
 
 
-//    @RequireRole({Role.SUPERVISEUR_LOGISTIQUE})
+    @PreAuthorize("hasAnyRole('RESPONSABLE_ACHATS','SUPERVISEUR_LOGISTIQUE','GESTIONNAIRE_APPROVISIONNEMENT')")
     @GetMapping("/{id}")
     public ResponseEntity<SupplierResponseDto> get(@PathVariable Long id) {
         return ResponseEntity.ok(supplierService.get(id));
@@ -43,22 +44,21 @@ public class SupplierController {
 
 
 
-//    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     @PostMapping
     public ResponseEntity<SupplierResponseDto> create(@Validated @RequestBody SupplierRequestDto dto) {
-        System.out.println("DEBUG: SupplierController.create received DTO = " + dto);
         return ResponseEntity.ok(supplierService.create(dto));
     }
 
 
-//    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     @PutMapping("/{id}")
     public ResponseEntity<SupplierResponseDto> update(@PathVariable Long id, @Validated @RequestBody SupplierRequestDto dto) {
         return ResponseEntity.ok(supplierService.update(id, dto));
     }
 
 
-//    @RequireRole({Role.GESTIONNAIRE_APPROVISIONNEMENT})
+    @PreAuthorize("hasRole('GESTIONNAIRE_APPROVISIONNEMENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         supplierService.delete(id);

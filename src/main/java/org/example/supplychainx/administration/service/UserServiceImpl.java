@@ -8,6 +8,7 @@ import org.example.supplychainx.administration.repository.UserRepository;
 import org.example.supplychainx.common.exception.BadRequestException;
 import org.example.supplychainx.common.exception.ResourceNotFoundException;
 import org.springframework.data.domain.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService {
 //        System.out.println("DEBUG Service: mapped entity BEFORE set/save = " + user);
         user.setCreatedAt(LocalDateTime.now());
          if (dto.getPassword() != null) {
-            user.setPasswordHash(dto.getPassword());
+            user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         }
         User saved = userRepository.save(user);
         return mapper.toDto(saved);
@@ -60,9 +63,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
         mapper.updateEntityFromDto(dto, user);
         user.setUpdatedAt(LocalDateTime.now());
-        // If password provided, update it (still plaintext in dev)
+        // If password provided, update it (BCrypt-encoded)
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            user.setPasswordHash(dto.getPassword());
+            user.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
         }
         User saved = userRepository.save(user);
         return mapper.toDto(saved);
